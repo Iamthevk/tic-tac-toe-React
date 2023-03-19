@@ -12,11 +12,15 @@ function Square({ value, onSquareClick }) {
 function Board() {
   //here we have lifted state by moving state from Square from Board
   const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
   const handleClick = (i) => {
+    // here we are returning if square[i] has a value already, this will prevent user to click if square has a value.
+    if (squares[i]) return;
     //here we created a copy of array with slice method
     const nextSquares = squares.slice();
-    nextSquares[i] = "X";
+    xIsNext ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
     setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   };
   return (
     <div>

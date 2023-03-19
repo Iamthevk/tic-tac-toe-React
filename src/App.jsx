@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-function Square() {
-  const [value, setValue] = useState("null");
-  const handleClick = () => {
-    // console.log("clicked")
-    setValue("X");
-  };
+function Square({ value, onSquareClick }) {
   return (
-    <button onClick={handleClick} className="square">
+    <button onClick={onSquareClick} className="square">
       {value}
     </button>
   );
 }
 
 function Board() {
+  //here we have lifted state by moving state from Square from Board
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const handleClick = (i) => {
+    //here we created a copy of array with slice method
+    const nextSquares = squares.slice();
+    nextSquares[i] = "X";
+    setSquares(nextSquares);
+  };
   return (
     <div>
       <div className="board-row">
-        <Square />
-        <Square />
-        <Square />
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
       </div>
       <div className="board-row">
         <button className="square">4</button>
